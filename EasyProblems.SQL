@@ -30,3 +30,82 @@ Find records with NO match
 ```
 
 **Key Pattern:** `LEFT JOIN + IS NULL`
+
+
+### 09-10-20026
+
+# LeetCode 196 — Delete Duplicate Emails
+
+### Concept
+
+**DELETE + SELF JOIN**
+
+Use a self join to compare rows in the same table and delete duplicate emails while keeping the row with the smallest `id`.
+
+### Logic
+
+* `p1.email = p2.email` → finds rows with the same email.
+* `p1.id > p2.id` → identifies the row with the larger ID.
+* `DELETE` → removes the duplicate row, keeping the smallest ID.
+
+### SQL Query
+
+```sql
+DELETE p1
+FROM Person p1
+JOIN Person p2
+    ON p1.email = p2.email
+WHERE p1.id > p2.id;
+```
+
+### Pattern to Remember
+
+```sql
+DELETE p1
+FROM TableName p1
+JOIN TableName p2
+    ON p1.column = p2.column
+WHERE p1.id > p2.id;
+```
+
+**Key Pattern:** `DELETE + SELF JOIN`
+
+**Important:** Unlike LeetCode 182, which finds duplicate emails using `GROUP BY` and `HAVING`, this problem actually deletes duplicate rows and preserves the row with the smallest `id`.
+
+
+
+# LeetCode — Big Countries
+
+### Concept
+
+**WHERE + OR**
+
+Use `WHERE` to filter rows based on conditions. Use `OR` when at least one condition must be true.
+
+### Logic
+
+* `area >= 3000000` → country has an area of at least 3 million.
+* `population >= 25000000` → country has a population of at least 25 million.
+* `OR` → returns countries satisfying either condition.
+
+### SQL Query
+
+```sql
+SELECT name, population, area
+FROM World
+WHERE area >= 3000000
+   OR population >= 25000000;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT columns
+FROM table
+WHERE condition1 OR condition2;
+```
+
+**Key Pattern:** `WHERE + OR`
+
+**Important:** Use `>=` because the question says “at least,” meaning the value can equal the specified limit.
+
