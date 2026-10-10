@@ -144,5 +144,43 @@ ORDER BY id ASC;
 **Key Pattern:** `WHERE + DISTINCT + ORDER BY`
 
 **Important:** Use `DISTINCT` because the same author may view their own article multiple times.
+
 ==============================================================================================================================================================================================================================================
 
+
+
+# LeetCode 584 — Find Customer Referee
+
+### Concept
+**WHERE + OR + IS NULL**
+
+Find customers who were not referred by customer `id = 2`, including customers who have no referee.
+
+### Logic
+- `referee_id != 2` → selects customers referred by someone other than customer 2.
+- `IS NULL` → includes customers who were not referred by anyone.
+- `OR` → returns rows satisfying either condition.
+
+### SQL Query
+
+```sql
+SELECT name
+FROM Customer
+WHERE referee_id != 2
+   OR referee_id IS NULL;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column
+FROM table
+WHERE condition
+   OR column IS NULL;
+```
+
+**Key Pattern:** `WHERE + OR + IS NULL`
+
+**Important:** `NULL` cannot be checked using `= NULL` or `!= NULL`. Use `IS NULL` or `IS NOT NULL` instead.
+
+===============================================================================================================================================================================================================================
