@@ -109,3 +109,40 @@ WHERE condition1 OR condition2;
 
 **Important:** Use `>=` because the question says “at least,” meaning the value can equal the specified limit.
 
+
+=============================================================================================================================================================================================================================================
+# LeetCode 1148 — Article Views I
+
+### Concept
+**WHERE + DISTINCT + ORDER BY**
+
+Find authors who viewed at least one of their own articles.
+
+### Logic
+- `author_id = viewer_id` → author viewed their own article.
+- `DISTINCT` → removes duplicate author IDs.
+- `ORDER BY id ASC` → sorts IDs in ascending order.
+
+### SQL Query
+
+```sql
+SELECT DISTINCT author_id AS id
+FROM Views
+WHERE author_id = viewer_id
+ORDER BY id ASC;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT DISTINCT column AS id
+FROM table
+WHERE condition
+ORDER BY id ASC;
+```
+
+**Key Pattern:** `WHERE + DISTINCT + ORDER BY`
+
+**Important:** Use `DISTINCT` because the same author may view their own article multiple times.
+==============================================================================================================================================================================================================================================
+
