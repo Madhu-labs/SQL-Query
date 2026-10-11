@@ -219,3 +219,38 @@ WHERE condition1
 **Important:** Since `low_fats` and `recyclable` are ENUM values containing `'Y'` or `'N'`, compare them using quotes.
 
 ===================================================================================================================================================================================================================================
+
+# LeetCode 1683 — Invalid Tweets
+
+### Concept
+**WHERE + LENGTH()**
+
+Use `LENGTH()` to count the characters in a tweet and `WHERE` to filter tweets exceeding the limit.
+
+### Logic
+- `LENGTH(content)` → counts the characters in the tweet.
+- `> 15` → selects tweets with more than 15 characters.
+
+### SQL Query
+
+```sql
+SELECT tweet_id
+FROM Tweets
+WHERE LENGTH(content) > 15;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column
+FROM table
+WHERE LENGTH(text_column) > limit;
+```
+
+**Key Pattern:** `WHERE + LENGTH()`
+
+**Important:** The question says *strictly greater than 15*, so use `> 15`, not `>= 15`.
+
+======================================================================================================================================================================================================================================
+
+
