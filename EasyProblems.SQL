@@ -184,3 +184,38 @@ WHERE condition
 **Important:** `NULL` cannot be checked using `= NULL` or `!= NULL`. Use `IS NULL` or `IS NOT NULL` instead.
 
 ===============================================================================================================================================================================================================================
+# LeetCode 1757 — Recyclable and Low Fat Products
+
+### Concept
+**WHERE + AND**
+
+Use `WHERE` to filter rows and `AND` when both conditions must be true.
+
+### Logic
+- `low_fats = 'Y'` → product is low fat.
+- `recyclable = 'Y'` → product is recyclable.
+- `AND` → selects products satisfying both conditions.
+
+### SQL Query
+
+```sql
+SELECT product_id
+FROM Products
+WHERE low_fats = 'Y'
+  AND recyclable = 'Y';
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column
+FROM table
+WHERE condition1
+  AND condition2;
+```
+
+**Key Pattern:** `WHERE + AND`
+
+**Important:** Since `low_fats` and `recyclable` are ENUM values containing `'Y'` or `'N'`, compare them using quotes.
+
+===================================================================================================================================================================================================================================
