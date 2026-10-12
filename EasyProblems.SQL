@@ -252,5 +252,43 @@ WHERE LENGTH(text_column) > limit;
 **Important:** The question says *strictly greater than 15*, so use `> 15`, not `>= 15`.
 
 ======================================================================================================================================================================================================================================
+# LeetCode 1693 — Daily Leads and Partners
+
+### Concept
+
+**GROUP BY + COUNT(DISTINCT)**
+
+Count the unique leads and partners for each date and product.
+
+### Logic
+
+* `GROUP BY date_id, make_name` → groups rows by date and product.
+* `COUNT(DISTINCT lead_id)` → counts unique leads.
+* `COUNT(DISTINCT partner_id)` → counts unique partners.
+* `DISTINCT` prevents duplicate IDs from being counted more than once.
+
+### SQL Query
+
+```sql
+SELECT date_id, make_name,
+       COUNT(DISTINCT lead_id) AS unique_leads,
+       COUNT(DISTINCT partner_id) AS unique_partners
+FROM DailySales
+GROUP BY date_id, make_name;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column1, column2,
+       COUNT(DISTINCT column3)
+FROM table
+GROUP BY column1, column2;
+```
+
+**Key Pattern:** `GROUP BY + COUNT(DISTINCT)`
+
+**Important:** Use `COUNT(DISTINCT column)` when the question asks for the number of unique values, especially when the table may contain duplicates.
+
 
 
