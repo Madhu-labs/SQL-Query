@@ -289,6 +289,54 @@ GROUP BY column1, column2;
 **Key Pattern:** `GROUP BY + COUNT(DISTINCT)`
 
 **Important:** Use `COUNT(DISTINCT column)` when the question asks for the number of unique values, especially when the table may contain duplicates.
+======================================================================================================================================================================
+# LeetCode 1251 — Average Selling Price
+
+### Concept
+
+**JOIN + SUM() + GROUP BY + ROUND()**
+
+Calculate the weighted average selling price of each product based on the number of units sold at each price.
+
+### Logic
+
+* `JOIN` → matches products and sales.
+* `purchase_date BETWEEN start_date AND end_date` → finds the applicable price for each sale.
+* `SUM(price * units) / SUM(units)` → calculates the weighted average price.
+* `ROUND(..., 2)` → rounds the result to 2 decimal places.
+* `LEFT JOIN` + `COALESCE()` → keeps products without sales and returns 0.
+
+### SQL Query
+
+```sql
+SELECT p.product_id,
+       COALESCE(ROUND(SUM(p.price * u.units) /
+       SUM(u.units), 2), 0) AS average_price
+FROM Prices p
+LEFT JOIN UnitsSold u
+    ON p.product_id = u.product_id
+    AND u.purchase_date BETWEEN p.start_date AND p.end_date
+GROUP BY p.product_id;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT id,
+       COALESCE(ROUND(SUM(price * units) /
+       SUM(units), 2), 0) AS average_price
+FROM TableA
+LEFT JOIN TableB ON condition
+GROUP BY id;
+```
+
+**Key Pattern:** `JOIN + Weighted Average + GROUP BY`
+
+**Important:** Use `SUM(price * units) / SUM(units)`, not `AVG(price)`, because products may be sold in different quantities at different prices.
+
+====≠==============≠==================================≠==========================================≠============================================≠================
+
+
 
 
 
