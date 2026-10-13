@@ -372,6 +372,52 @@ LIMIT 1;
 **Key Pattern:** `GROUP BY + COUNT + ORDER BY DESC + LIMIT 1`
 
 **Important:** `DESC` sorts from highest to lowest. The problem guarantees exactly one customer has the most orders, so `LIMIT 1` is sufficient.
+===================================================================================================================================================================================================================
+
+# LeetCode #1075 — Project Employees I
+
+**Pattern:** SQL JOIN + GROUP BY + Aggregate Functions
+
+**Difficulty:** Easy
+
+### Theory
+Find the average experience of employees assigned to each project and round the result to two decimal places.
+
+### Approach
+1. Join `Project` and `Employee` using `employee_id`.
+2. Use `AVG()` to calculate the average experience.
+3. Use `ROUND()` to round the average to two decimal places.
+4. Group the results by `project_id`.
+
+### SQL Query
+```sql
+SELECT p.project_id,
+       ROUND(AVG(e.experience_years), 2) AS average_years
+FROM Project p
+JOIN Employee e
+    ON p.employee_id = e.employee_id
+GROUP BY p.project_id;
+```
+
+### Example
+Project 1 experience values: `3, 2, 1`
+
+Average: `(3 + 2 + 1) / 3 = 2.00`
+
+Project 2 experience values: `3, 2`
+
+Average: `(3 + 2) / 2 = 2.50`
+
+### Key Concepts
+- `JOIN`: combines related rows from two tables.
+- `AVG()`: calculates an average.
+- `ROUND(value, 2)`: rounds a number to two decimal places.
+- `GROUP BY`: calculates results separately for each project.
+
+### Complexity
+The query processes the project and employee records and groups employees by project. Exact performance depends on the database engine and indexes.
+========================================================================================================================================================================================================================
+
 
 
 
