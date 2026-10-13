@@ -336,6 +336,43 @@ GROUP BY id;
 
 ====≠==============≠==================================≠==========================================≠============================================≠================
 
+# LeetCode 586 — Customer Placing the Largest Number of Orders
+
+### Concept
+**GROUP BY + COUNT() + ORDER BY + LIMIT**
+
+Find the customer who has placed the highest number of orders.
+
+### Logic
+- `GROUP BY customer_number` → groups orders by customer.
+- `COUNT(*)` → counts each customer's orders.
+- `ORDER BY COUNT(*) DESC` → sorts customers by order count, highest first.
+- `LIMIT 1` → returns only the top customer.
+
+### SQL Query
+
+```sql
+SELECT customer_number
+FROM Orders
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column
+FROM table
+GROUP BY column
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+**Key Pattern:** `GROUP BY + COUNT + ORDER BY DESC + LIMIT 1`
+
+**Important:** `DESC` sorts from highest to lowest. The problem guarantees exactly one customer has the most orders, so `LIMIT 1` is sufficient.
+
 
 
 
