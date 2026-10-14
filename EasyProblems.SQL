@@ -426,6 +426,49 @@ Average: `(3 + 2) / 2 = 2.50`
 The query processes the project and employee records and groups employees by project. Exact performance depends on the database engine and indexes.
 ========================================================================================================================================================================================================================
 
+14-10-2026
+
+
+# LeetCode 1729 — Find Followers Count
+
+### Concept
+**GROUP BY + COUNT() + ORDER BY**
+
+Count the number of followers for each user and sort the results by user ID.
+
+### Logic
+- `GROUP BY user_id` → groups followers by user.
+- `COUNT(follower_id)` → counts each user's followers.
+- `ORDER BY user_id ASC` → sorts user IDs in ascending order.
+
+### SQL Query
+
+```sql
+SELECT user_id,
+       COUNT(follower_id) AS followers_count
+FROM Followers
+GROUP BY user_id
+ORDER BY user_id ASC;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column, COUNT(*)
+FROM table
+GROUP BY column
+ORDER BY column ASC;
+```
+
+**Key Pattern:** `GROUP BY + COUNT() + ORDER BY ASC`
+
+**Important:** Group by `user_id` because the question asks for the follower count of each user.
+=======================================================================================================================================================================================================================================
+
+14-10-2026
+
+
+
 
 
 
