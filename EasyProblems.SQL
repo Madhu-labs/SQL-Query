@@ -467,6 +467,43 @@ ORDER BY column ASC;
 
 14-10-2026
 
+# LeetCode 1050 — Actors and Directors Who Cooperated At Least Three Times
+
+### Concept
+**GROUP BY + COUNT() + HAVING**
+
+Find actor-director pairs that worked together at least three times.
+
+### Logic
+- `GROUP BY actor_id, director_id` → groups records by each unique actor-director pair.
+- `COUNT(*)` → counts how many times each pair cooperated.
+- `HAVING COUNT(*) >= 3` → keeps pairs that cooperated at least three times.
+
+### SQL Query
+
+```sql
+SELECT actor_id, director_id
+FROM ActorDirector
+GROUP BY actor_id, director_id
+HAVING COUNT(*) >= 3;
+```
+
+### Pattern to Remember
+
+```sql
+SELECT column1, column2
+FROM table
+GROUP BY column1, column2
+HAVING COUNT(*) >= 3;
+```
+
+**Key Pattern:** `GROUP BY + COUNT() + HAVING`
+
+**Important:** Use `HAVING`, not `WHERE`, because we need to filter groups based on the result of `COUNT()`.
+
+===========================================================================================================================================================================================================================================
+
+
 
 
 
