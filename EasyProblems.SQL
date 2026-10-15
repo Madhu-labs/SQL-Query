@@ -502,12 +502,133 @@ HAVING COUNT(*) >= 3;
 **Important:** Use `HAVING`, not `WHERE`, because we need to filter groups based on the result of `COUNT()`.
 
 ===========================================================================================================================================================================================================================================
+14-10-2026
 
 
+# LeetCode SQL 1741 — Find Total Time Spent by Each Employee
 
+## Concept
+Use `GROUP BY` with `SUM()` to calculate the total working time for each employee on each day.
 
+## SQL Query
+```sql
+SELECT
+    event_day AS day,
+    emp_id,
+    SUM(out_time - in_time) AS total_time
+FROM Employees
+GROUP BY event_day, emp_id;
+```
 
+## Logic
+1. Calculate each entry's duration: `out_time - in_time`.
+2. Group records by `event_day` and `emp_id`.
+3. Use `SUM()` to add all durations for the same employee on the same day.
+4. Rename `event_day` to `day` using `AS day`.
 
+## Example
+For employee `1` on `2020-11-28`:
 
+- First entry: `32 - 4 = 28` minutes
+- Second entry: `200 - 55 = 145` minutes
+- Total: `28 + 145 = 173` minutes
 
+## Pattern to Remember
+**`GROUP BY` + `SUM()` + calculated expression**
 
+Use this pattern when you need to calculate a total from multiple records in each group.
+
+## Key Pattern
+- `SUM()` — adds values together.
+- `GROUP BY` — creates groups based on matching columns.
+- `AS day` — renames a column in the output.
+
+**Important:** Group by both the date and employee ID. Grouping only by employee ID would combine their working time across different days.
+
+============================================================================================================================================================================================================================================
+
+14-10-2026
+
+# LeetCode SQL 1211 — Queries Quality and Percentage
+
+## Concept
+Use `GROUP BY`, `AVG()`, `ROUND()`, and conditional aggregation to calculate query quality and poor query percentage.
+
+## SQL Query
+```sql
+SELECT
+    query_name,
+    ROUND(AVG(rating / position), 2) AS quality,
+    ROUND(
+        AVG(CASE WHEN rating < 3 THEN 1.0 ELSE 0 END) * 100,
+        2
+    ) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name;
+```
+
+## Logic
+1. **Quality:** Calculate `rating / position` for each row and find the average.
+2. **Poor query percentage:** Count rows where `rating < 3` as `1.0`, and all other rows as `0`.
+3. `AVG()` calculates the proportion of poor queries.
+4. Multiply by `100` to convert the proportion into a percentage.
+5. Use `ROUND(..., 2)` to round both results to two decimal places.
+6. Group by `query_name` to calculate the results separately for each query.
+
+## Pattern to Remember
+**`GROUP BY` + `AVG()` + `CASE WHEN` + `ROUND()`**
+
+Use conditional aggregation when calculating percentages or averages based on a condition.
+
+## Key Pattern
+```sql
+AVG(CASE WHEN condition THEN 1.0 ELSE 0 END) * 100
+```
+
+**Important:** Use `1.0` instead of `1` to help ensure decimal division and avoid integer-division issues in SQL engines that perform integer division.
+
+================================================================================================================================================================================================================================================
+
+15-10-2026
+
+# LeetCode SQL 1211 — Queries Quality and Percentage
+
+## Concept
+Use `GROUP BY`, `AVG()`, `ROUND()`, and conditional aggregation to calculate query quality and poor query percentage.
+
+## SQL Query
+```sql
+SELECT
+    query_name,
+    ROUND(AVG(rating / position), 2) AS quality,
+    ROUND(
+        AVG(CASE WHEN rating < 3 THEN 1.0 ELSE 0 END) * 100,
+        2
+    ) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name;
+```
+
+## Logic
+1. **Quality:** Calculate `rating / position` for each row and find the average.
+2. **Poor query percentage:** Count rows where `rating < 3` as `1.0`, and all other rows as `0`.
+3. `AVG()` calculates the proportion of poor queries.
+4. Multiply by `100` to convert the proportion into a percentage.
+5. Use `ROUND(..., 2)` to round both results to two decimal places.
+6. Group by `query_name` to calculate the results separately for each query.
+
+## Pattern to Remember
+**`GROUP BY` + `AVG()` + `CASE WHEN` + `ROUND()`**
+
+Use conditional aggregation when calculating percentages or averages based on a condition.
+
+## Key Pattern
+```sql
+AVG(CASE WHEN condition THEN 1.0 ELSE 0 END) * 100
+```
+
+**Important:** Use `1.0` instead of `1` to help ensure decimal division and avoid integer-division issues in SQL engines that perform integer division.
+
+==========================================================================================================================================================================================================================================================
+
+15-10-2026
