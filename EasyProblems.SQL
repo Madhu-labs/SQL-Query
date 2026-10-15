@@ -632,3 +632,45 @@ AVG(CASE WHEN condition THEN 1.0 ELSE 0 END) * 100
 ==========================================================================================================================================================================================================================================================
 
 15-10-2026
+
+# LeetCode SQL 1741 — Find Total Time Spent by Each Employee
+
+## Concept
+Use `GROUP BY` with `SUM()` to calculate the total working time for each employee on each day.
+
+## SQL Query
+```sql
+SELECT
+    event_day AS day,
+    emp_id,
+    SUM(out_time - in_time) AS total_time
+FROM Employees
+GROUP BY event_day, emp_id;
+```
+
+## Logic
+1. Calculate each entry's duration: `out_time - in_time`.
+2. Group records by `event_day` and `emp_id`.
+3. Use `SUM()` to add all durations for the same employee on the same day.
+4. Rename `event_day` to `day` using `AS day`.
+
+## Example
+For employee `1` on `2020-11-28`:
+
+- First entry: `32 - 4 = 28` minutes
+- Second entry: `200 - 55 = 145` minutes
+- Total: `28 + 145 = 173` minutes
+
+## Pattern to Remember
+**`GROUP BY` + `SUM()` + calculated expression**
+
+Use this pattern when you need to calculate a total from multiple records in each group.
+
+## Key Pattern
+- `SUM()` — adds values together.
+- `GROUP BY` — creates groups based on matching columns.
+- `AS day` — renames a column in the output.
+
+**Important:** Group by both the date and employee ID. Grouping only by employee ID would combine their working time across different days.
+
+================================================================================================================================================================================================================================================================
