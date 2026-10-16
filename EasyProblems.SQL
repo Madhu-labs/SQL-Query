@@ -673,4 +673,37 @@ Use this pattern when you need to calculate a total from multiple records in eac
 
 **Important:** Group by both the date and employee ID. Grouping only by employee ID would combine their working time across different days.
 
-================================================================================================================================================================================================================================================================
+=============================================================================================================================================================================================================================================================
+# LeetCode #283 — Move Zeroes
+
+**Pattern:** Two Pointers / In-place Array Manipulation
+
+**Difficulty:** Easy
+
+### Theory
+
+Move all zeros to the end of an array while preserving the relative order of non-zero elements. Modify the original array without creating a copy.
+
+### Approach
+
+1. Initialize `index = 0` to track the next position for a non-zero value.
+2. Traverse the array and copy each non-zero value to `nums[index]`.
+3. Increment `index` after each non-zero value.
+4. Fill all remaining positions with zeros.
+
+### Example
+
+**Input:** `nums = [0,1,0,3,12]`
+
+**Output:** `[1,3,12,0,0]`
+
+### Complexity
+
+* **Time Complexity:** `O(n)` — the array is traversed twice at most.
+* **Extra Space Complexity:** `O(1)` — the original array is modified directly.
+
+### Key Takeaway
+
+Use an index pointer to place non-zero values first, then fill the remaining positions with zeros. This preserves their relative order and uses constant extra space.
+===============
+
