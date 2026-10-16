@@ -706,4 +706,55 @@ Move all zeros to the end of an array while preserving the relative order of non
 
 Use an index pointer to place non-zero values first, then fill the remaining positions with zeros. This preserves their relative order and uses constant extra space.
 ===============
+# LeetCode SQL 1280 — Students and Examinations
+
+## Concept
+
+Use `CROSS JOIN`, `LEFT JOIN`, `COUNT()`, and `GROUP BY` to show every student-subject combination and count exam attendance, including zero attendance.
+
+## SQL Query
+
+```sql
+SELECT
+    s.student_id,
+    s.student_name,
+    sub.subject_name,
+    COUNT(e.subject_name) AS attended_exams
+FROM Students s
+CROSS JOIN Subjects sub
+LEFT JOIN Examinations e
+    ON s.student_id = e.student_id
+    AND sub.subject_name = e.subject_name
+GROUP BY
+    s.student_id,
+    s.student_name,
+    sub.subject_name
+ORDER BY
+    s.student_id,
+    sub.subject_name;
+```
+
+## Logic
+
+1. **`CROSS JOIN`** creates every possible student-subject combination.
+2. **`LEFT JOIN`** matches each combination with its exam records.
+3. **`COUNT(e.subject_name)`** counts matching exam records, including duplicates.
+4. If a student never attended a subject's exam, the count is `0`.
+5. **`GROUP BY`** groups records by student and subject.
+6. **`ORDER BY`** sorts by `student_id`, then `subject_name`.
+
+## Pattern to Remember
+
+**`CROSS JOIN` + `LEFT JOIN` + `COUNT()` + `GROUP BY`**
+
+Use this pattern when every possible combination must appear, even when no matching record exists.
+
+## Key Pattern
+
+* `CROSS JOIN` — generates all combinations.
+* `LEFT JOIN` — preserves combinations without matches.
+* `COUNT(column)` — ignores `NULL` values, so unmatched combinations return `0`.
+
+**Important:** Use `COUNT(e.subject_name)`, not `COUNT(*)`. With a `LEFT JOIN`, `COUNT(*)` would count the unmatched row and incorrectly return `1` instead of `0`.
+
 
