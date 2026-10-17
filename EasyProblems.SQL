@@ -801,7 +801,35 @@ Use this pattern when you need to count related records in the same table and fi
 
 
 ================================================================================================================================================================================================================================================
+LeetCode SQL 197 — Rising Temperature
+Concept
 
+Use a self join to compare each day's temperature with the previous day's temperature.
+
+SQL Query
+SELECT w1.id
+FROM Weather w1
+JOIN Weather w2
+    ON DATEDIFF(w1.recordDate, w2.recordDate) = 1
+WHERE w1.temperature > w2.temperature;
+Logic
+Join the Weather table to itself.
+DATEDIFF(w1.recordDate, w2.recordDate) = 1 matches today's record with yesterday's record.
+w1.temperature > w2.temperature selects dates when the temperature increased.
+Return the ID of the warmer day.
+Pattern to Remember
+
+Self Join + DATEDIFF() + WHERE
+
+Use this pattern when comparing records from consecutive dates.
+
+Key Pattern
+w1 — today's weather.
+w2 — yesterday's weather.
+DATEDIFF() — calculates the difference between two dates.
+WHERE — filters rows based on the temperature comparison.
+
+Important: Joining on a one-day date difference ensures the query compares consecutive calendar days, not just the previous available record.
 
 
 ===================================================================================================================================================================================================================================================
