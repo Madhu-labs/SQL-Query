@@ -674,6 +674,9 @@ Use this pattern when you need to calculate a total from multiple records in eac
 **Important:** Group by both the date and employee ID. Grouping only by employee ID would combine their working time across different days.
 
 =============================================================================================================================================================================================================================================================
+16-10-2026
+
+
 # LeetCode #283 — Move Zeroes
 
 **Pattern:** Two Pointers / In-place Array Manipulation
@@ -705,7 +708,9 @@ Move all zeros to the end of an array while preserving the relative order of non
 ### Key Takeaway
 
 Use an index pointer to place non-zero values first, then fill the remaining positions with zeros. This preserves their relative order and uses constant extra space.
-===============
+============================================================================================================================================================================================================================================
+
+16-10-2026
 # LeetCode SQL 1280 — Students and Examinations
 
 ## Concept
@@ -756,5 +761,50 @@ Use this pattern when every possible combination must appear, even when no match
 * `COUNT(column)` — ignores `NULL` values, so unmatched combinations return `0`.
 
 **Important:** Use `COUNT(e.subject_name)`, not `COUNT(*)`. With a `LEFT JOIN`, `COUNT(*)` would count the unmatched row and incorrectly return `1` instead of `0`.
+
+============================================================================================================================================================================================================================================
+
+17-10-2026
+
+# LeetCode SQL 570 — Managers with at Least 5 Direct Reports
+
+## Concept
+Use `GROUP BY` and `HAVING COUNT()` to find managers who have five or more direct reports.
+
+## SQL Query
+```sql
+SELECT e.name
+FROM Employee e
+JOIN Employee r
+    ON e.id = r.managerId
+GROUP BY e.id, e.name
+HAVING COUNT(*) >= 5;
+```
+
+## Logic
+1. Use a **self join** because managers and employees are stored in the same table.
+2. `e.id = r.managerId` matches each manager with their direct reports.
+3. `GROUP BY e.id, e.name` groups employees under each manager.
+4. `HAVING COUNT(*) >= 5` keeps only managers with at least five direct reports.
+
+## Pattern to Remember
+**Self Join + `GROUP BY` + `HAVING COUNT()`**
+
+Use this pattern when you need to count related records in the same table and filter groups by their count.
+
+## Key Pattern
+- `JOIN Employee` — joins the table to itself.
+- `ON e.id = r.managerId` — connects managers to their direct reports.
+- `HAVING` — filters groups after aggregation.
+
+**Important:** Use `HAVING`, not `WHERE`, to filter based on an aggregate such as `COUNT(*)`.
+
+
+================================================================================================================================================================================================================================================
+
+
+
+===================================================================================================================================================================================================================================================
+
 
 
