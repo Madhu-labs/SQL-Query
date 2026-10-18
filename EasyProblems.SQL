@@ -871,6 +871,49 @@ Use this pattern when you need matching records that satisfy a condition, along 
 =================================================================================================================================================================================================================================================
 18-10-2026
 
+# LeetCode SQL 1873 — Calculate Special Bonus
+
+## Concept
+Use `CASE WHEN` to calculate a bonus based on multiple conditions, and `MOD()` to check whether an employee ID is odd or even.
+
+## SQL Query
+```sql
+SELECT
+    employee_id,
+    CASE
+        WHEN MOD(employee_id, 2) = 1
+             AND name NOT LIKE 'M%'
+        THEN salary
+        ELSE 0
+    END AS bonus
+FROM Employees
+ORDER BY employee_id;
+```
+
+## Logic
+1. `MOD(employee_id, 2) = 1` checks whether the employee ID is odd.
+2. `name NOT LIKE 'M%'` checks that the name does not start with `M`.
+3. If both conditions are true, the bonus equals the employee's full salary.
+4. Otherwise, the bonus is `0`.
+5. `ORDER BY employee_id` sorts the results by employee ID.
+
+## Pattern to Remember
+**`CASE WHEN` + `MOD()` + `LIKE` + `ORDER BY`**
+
+Use this pattern when calculating values based on conditions.
+
+## Key Pattern
+- `MOD(id, 2) = 1` — odd ID.
+- `MOD(id, 2) = 0` — even ID.
+- `LIKE 'M%'` — name starts with `M`.
+- `NOT LIKE 'M%'` — name does not start with `M`.
+
+**Important:** The `%` wildcard matches any sequence of characters after `M`. Both conditions must be true to receive the salary as a bonus.
+
+===============================================================================================================================================================================================================================================
+
+19-10-2026
+
 
 
 
