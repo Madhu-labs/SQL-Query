@@ -834,5 +834,43 @@ Important: Joining on a one-day date difference ensures the query compares conse
 
 ===================================================================================================================================================================================================================================================
 
+18-10-2026
+
+# LeetCode SQL 577 — Employee Bonus
+
+## Concept
+Use `LEFT JOIN` and `WHERE` with `OR` to find employees whose bonus is less than 1000 or who have no bonus record.
+
+## SQL Query
+```sql
+SELECT e.name, b.bonus
+FROM Employee e
+LEFT JOIN Bonus b
+    ON e.empId = b.empId
+WHERE b.bonus < 1000
+   OR b.bonus IS NULL;
+```
+
+## Logic
+1. Use `LEFT JOIN` to include all employees, even those without a bonus record.
+2. Match employees and bonuses using `empId`.
+3. `b.bonus < 1000` selects employees with bonuses below 1000.
+4. `b.bonus IS NULL` selects employees who did not receive a bonus record.
+
+## Pattern to Remember
+**`LEFT JOIN` + `WHERE` + `IS NULL` + `OR`**
+
+Use this pattern when you need matching records that satisfy a condition, along with records that have no match.
+
+## Key Pattern
+- `LEFT JOIN` — keeps every employee.
+- `b.bonus < 1000` — checks for a bonus below 1000.
+- `b.bonus IS NULL` — identifies employees with no bonus record.
+
+**Important:** Use `IS NULL`, not `= NULL`, because SQL checks `NULL` values using `IS NULL` or `IS NOT NULL`.
+=================================================================================================================================================================================================================================================
+18-10-2026
+
+
 
 
