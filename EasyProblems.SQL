@@ -914,6 +914,50 @@ Use this pattern when calculating values based on conditions.
 
 19-10-2026
 
+# LeetCode SQL 627 — Swap Sex of Employees
+
+## Concept
+Use `UPDATE` with `CASE WHEN` to swap `'m'` and `'f'` values in a single SQL statement.
+
+## SQL Query
+```sql
+UPDATE Salary
+SET sex = CASE
+    WHEN sex = 'm' THEN 'f'
+    ELSE 'm'
+END;
+```
+
+## Logic
+1. `UPDATE Salary` modifies the existing table.
+2. `CASE WHEN sex = 'm' THEN 'f'` changes male values to female.
+3. `ELSE 'm'` changes female values to male.
+4. The statement updates every row without creating temporary tables.
+
+## Pattern to Remember
+**`UPDATE` + `SET` + `CASE WHEN`**
+
+Use this pattern when you need to change existing values based on conditions.
+
+## Key Pattern
+- `UPDATE` — modifies existing records.
+- `SET` — specifies the column to change.
+- `CASE WHEN` — chooses the new value based on a condition.
+
+**Important:** This solution uses one `UPDATE` statement, as required. The `ELSE 'm'` branch works because the `sex` column contains only `'m'` and `'f'`.
+
+================================================================================================================================================================================================================================================================
+
+19-10-2026
+
+
+
+==================================================================================================================================================================================================================================================================
+
+20-10-2026
+
+
+
 
 
 
