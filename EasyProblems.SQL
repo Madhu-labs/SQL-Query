@@ -950,7 +950,45 @@ Use this pattern when you need to change existing values based on conditions.
 
 19-10-2026
 
+# LeetCode SQL 1661 — Average Time of Process per Machine
 
+## Concept
+Use a self join to match each process's start and end timestamps, then calculate the average processing time for each machine.
+
+## SQL Query
+```sql
+SELECT
+    a.machine_id,
+    ROUND(AVG(b.timestamp - a.timestamp), 3) AS processing_time
+FROM Activity a
+JOIN Activity b
+    ON a.machine_id = b.machine_id
+    AND a.process_id = b.process_id
+WHERE a.activity_type = 'start'
+  AND b.activity_type = 'end'
+GROUP BY a.machine_id;
+```
+
+## Logic
+1. Join `Activity` to itself using `machine_id` and `process_id`.
+2. Alias `a` represents the start record; alias `b` represents the end record.
+3. Calculate the duration: `b.timestamp - a.timestamp`.
+4. Use `AVG()` to calculate the average duration for each machine.
+5. Use `ROUND(..., 3)` to round the result to three decimal places.
+6. `GROUP BY a.machine_id` calculates one average per machine.
+
+## Pattern to Remember
+**Self Join + `WHERE` + `AVG()` + `ROUND()` + `GROUP BY`**
+
+Use this pattern when matching related records in the same table and calculating an average from their values.
+
+## Key Pattern
+- Self join — matches start and end records.
+- `AVG()` — calculates the average process duration.
+- `ROUND(value, 3)` — rounds to three decimal places.
+- `GROUP BY machine_id` — produces one result per machine.
+
+**Important:** Match both `machine_id` and `process_id` so each start timestamp is paired with the correct end timestamp.
 
 ==================================================================================================================================================================================================================================================================
 
