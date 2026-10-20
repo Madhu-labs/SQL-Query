@@ -993,6 +993,44 @@ Use this pattern when matching related records in the same table and calculating
 ==================================================================================================================================================================================================================================================================
 
 20-10-2026
+Use this SQL query for LeetCode 1280 — Students and Examinations. It includes every student-subject combination and returns `0` when a student has not attended an exam.
+
+SQL
+
+```
+SELECT
+    s.student_id,
+    s.student_name,
+    sub.subject_name,
+    COUNT(e.subject_name) AS attended_exams
+FROM Students s
+CROSS JOIN Subjects sub
+LEFT JOIN Examinations e
+    ON s.student_id = e.student_id
+    AND sub.subject_name = e.subject_name
+GROUP BY
+    s.student_id,
+    s.student_name,
+    sub.subject_name
+ORDER BY
+    s.student_id,
+    sub.subject_name;
+```
+
+### Why this works
+
+* `CROSS JOIN` creates every student-subject combination.
+
+* `LEFT JOIN` matches the exam attendance records.
+
+* `COUNT(e.subject_name)` counts attendance, including duplicate exam records, and returns `0` when there is no match.
+
+* `GROUP BY` calculates the count for each student and subject.
+
+* `ORDER BY` sorts by student ID and subject name.
+
+Important: Use `COUNT(e.subject_name)`, not `COUNT(*)`. Otherwise, combinations without an exam record would incorrectly return `1` instead of `0`.
+
 
 
 
