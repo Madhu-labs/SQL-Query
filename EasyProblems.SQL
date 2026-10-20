@@ -1031,6 +1031,66 @@ ORDER BY
 
 Important: Use `COUNT(e.subject_name)`, not `COUNT(*)`. Otherwise, combinations without an exam record would incorrectly return `1` instead of `0`.
 
+==================
+20-10-2026
+
+LeetCode SQL 1179 — Reformat Department Table
+
+# LeetCode SQL 1179 — Reformat Department Table
+
+## Concept
+
+Use **conditional aggregation** with `MAX(CASE WHEN ...)` to convert monthly rows into separate revenue columns.
+
+## SQL Query
+
+```
+SELECT
+    id,
+    MAX(CASE WHEN month = 'Jan' THEN revenue END) AS Jan_Revenue,
+    MAX(CASE WHEN month = 'Feb' THEN revenue END) AS Feb_Revenue,
+    MAX(CASE WHEN month = 'Mar' THEN revenue END) AS Mar_Revenue,
+    MAX(CASE WHEN month = 'Apr' THEN revenue END) AS Apr_Revenue,
+    MAX(CASE WHEN month = 'May' THEN revenue END) AS May_Revenue,
+    MAX(CASE WHEN month = 'Jun' THEN revenue END) AS Jun_Revenue,
+    MAX(CASE WHEN month = 'Jul' THEN revenue END) AS Jul_Revenue,
+    MAX(CASE WHEN month = 'Aug' THEN revenue END) AS Aug_Revenue,
+    MAX(CASE WHEN month = 'Sep' THEN revenue END) AS Sep_Revenue,
+    MAX(CASE WHEN month = 'Oct' THEN revenue END) AS Oct_Revenue,
+    MAX(CASE WHEN month = 'Nov' THEN revenue END) AS Nov_Revenue,
+    MAX(CASE WHEN month = 'Dec' THEN revenue END) AS Dec_Revenue
+FROM Department
+GROUP BY id;
+```
+
+## Logic
+
+1. Each row contains a department's revenue for one month.
+
+2. `CASE WHEN month = 'Jan' THEN revenue END` returns revenue only for January.
+
+3. `MAX()` extracts that month's value for each department.
+
+4. Repeat the conditional expression for all 12 months.
+
+5. `GROUP BY id` produces one row per department.
+
+6. Months without revenue records return `NULL`.
+
+## Pattern to Remember
+
+**Conditional Aggregation +** `**CASE WHEN**` **+** `**MAX()**` **+** `**GROUP BY**`
+
+Use this pattern when converting rows into columns, also known as **pivoting**.
+
+## Key Pattern
+
+```
+MAX(CASE WHEN condition THEN value END) AS column_name
+```
+
+**Important:** Use `MAX()` to aggregate the conditional values into one row per department. Since `(id, month)` is unique, there is at most one revenue value per department per month.
+===================
 
 
 
