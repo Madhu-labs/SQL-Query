@@ -1132,6 +1132,51 @@ LIMIT 1 OFFSET 1;
 
 21-10-2026
 
+# LeetCode SQL 184 — Department Highest Salary
+
+## Concept
+Use a subquery with `GROUP BY` and `MAX()` to find the highest salary in each department, then join the results to retrieve all employees earning that salary.
+
+## SQL Query
+```sql
+SELECT
+    d.name AS Department,
+    e.name AS Employee,
+    e.salary AS Salary
+FROM Employee e
+JOIN Department d
+    ON e.departmentId = d.id
+JOIN (
+    SELECT departmentId, MAX(salary) AS max_salary
+    FROM Employee
+    GROUP BY departmentId
+) m
+    ON e.departmentId = m.departmentId
+    AND e.salary = m.max_salary;
+```
+
+## Logic
+1. The subquery groups employees by `departmentId`.
+2. `MAX(salary)` finds the highest salary in each department.
+3. Join the subquery with `Employee` using the department ID and matching salary.
+4. Join `Department` to get the department name.
+5. Employees tied for the highest salary are all included.
+
+## Pattern to Remember
+**`GROUP BY` + `MAX()` + Subquery + `JOIN`**
+
+Use this pattern when you need to find records matching the maximum value within each group.
+
+## Key Pattern
+```sql
+SELECT departmentId, MAX(salary)
+FROM Employee
+GROUP BY departmentId;
+```
+
+**Important:** Do not use `LIMIT 1` for each department. Multiple employees can share the highest salary, and the solution must return all of them.
+=======================================================================================================================================================================================================================================
+
 
 
 
