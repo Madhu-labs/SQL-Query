@@ -1031,7 +1031,7 @@ ORDER BY
 
 Important: Use `COUNT(e.subject_name)`, not `COUNT(*)`. Otherwise, combinations without an exam record would incorrectly return `1` instead of `0`.
 
-==================
+========================================================================================================================================================================================================================================= 
 20-10-2026
 
 LeetCode SQL 1179 — Reformat Department Table
@@ -1090,7 +1090,49 @@ MAX(CASE WHEN condition THEN value END) AS column_name
 ```
 
 **Important:** Use `MAX()` to aggregate the conditional values into one row per department. Since `(id, month)` is unique, there is at most one revenue value per department per month.
-===================
+======================================================================================================================================================================================================================================
+21-10-2026
+
+# LeetCode SQL 176 — Second Highest Salary
+
+## Concept
+Use `DISTINCT`, `ORDER BY`, and `LIMIT` with `OFFSET` to find the second-highest distinct salary. Use a subquery so the result is `NULL` when no second-highest salary exists.
+
+## SQL Query
+```sql
+SELECT (
+    SELECT DISTINCT salary
+    FROM Employee
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET 1
+) AS SecondHighestSalary;
+```
+
+## Logic
+1. `DISTINCT salary` removes duplicate salaries.
+2. `ORDER BY salary DESC` sorts salaries from highest to lowest.
+3. `LIMIT 1 OFFSET 1` skips the highest salary and selects the next one.
+4. The outer `SELECT` returns the result as `SecondHighestSalary`.
+5. If there is no second-highest distinct salary, the subquery returns `NULL`.
+
+## Pattern to Remember
+**`DISTINCT` + `ORDER BY DESC` + `LIMIT` + `OFFSET` + Subquery**
+
+Use this pattern to retrieve the Nth-highest distinct value.
+
+## Key Pattern
+```sql
+ORDER BY column_name DESC
+LIMIT 1 OFFSET 1;
+```
+
+**Important:** Use `DISTINCT` because the problem asks for the second-highest *distinct* salary. The scalar subquery ensures the output still contains one row with `NULL` if a second salary does not exist.
+
+=================================================================================================================================================================================================================================================
+
+21-10-2026
+
+
 
 
 
