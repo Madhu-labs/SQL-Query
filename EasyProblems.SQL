@@ -1230,6 +1230,39 @@ DENSE_RANK() OVER (
 ==================================================================================================================================================================================================================================================
 22-10-2026
 
+# 1667. Fix Names in a Table
+
+**Concept:** String Functions — `UPPER()`, `LOWER()`, `SUBSTRING()`
+
+### SQL Query
+```sql
+SELECT user_id,
+       CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2))) AS name
+FROM Users
+ORDER BY user_id;
+```
+
+### Logic
+- `LEFT(name, 1)` extracts the first character.
+- `UPPER()` converts it to uppercase.
+- `SUBSTRING(name, 2)` extracts the remaining characters.
+- `LOWER()` converts the remaining characters to lowercase.
+- `CONCAT()` joins both parts.
+- `ORDER BY user_id` sorts the result by user ID.
+
+### Pattern to Remember
+Use `UPPER()` for the first character and `LOWER()` for the remaining characters.
+
+**Key Pattern:** String manipulation + sorting.
+
+**Important:** Use `SELECT` to format the output; do not use `UPDATE`, because the problem asks you to return a result table.
+========================================================================================================================================================================================================================================================
+23-10-2026
+
+=======================================================================================================================================================================================================================================================================
+23-10-2026
+
+
 
 
 
