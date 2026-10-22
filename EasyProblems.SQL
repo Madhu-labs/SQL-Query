@@ -1177,6 +1177,61 @@ GROUP BY departmentId;
 **Important:** Do not use `LIMIT 1` for each department. Multiple employees can share the highest salary, and the solution must return all of them.
 =======================================================================================================================================================================================================================================
 
+22-10-2026
+
+# LeetCode SQL 185 — Department Top Three Salaries
+
+## Concept
+Use `DENSE_RANK()` with `PARTITION BY` to rank employees by salary within each department and return employees whose salary ranks in the top three distinct salaries.
+
+## SQL Query
+```sql
+SELECT
+    d.name AS Department,
+    e.name AS Employee,
+    e.salary AS Salary
+FROM (
+    SELECT
+        name,
+        salary,
+        departmentId,
+        DENSE_RANK() OVER (
+            PARTITION BY departmentId
+            ORDER BY salary DESC
+        ) AS salary_rank
+    FROM Employee
+) e
+JOIN Department d
+    ON e.departmentId = d.id
+WHERE e.salary_rank <= 3;
+```
+
+## Logic
+1. `PARTITION BY departmentId` ranks employees separately within each department.
+2. `ORDER BY salary DESC` ranks the highest salary first.
+3. `DENSE_RANK()` assigns the same rank to equal salaries without skipping the next rank.
+4. `WHERE salary_rank <= 3` keeps employees earning one of the top three **distinct** salaries.
+5. Join `Department` to retrieve department names.
+
+## Pattern to Remember
+**`DENSE_RANK()` + `PARTITION BY` + `ORDER BY` + Subquery**
+
+Use this pattern when you need the top N distinct values within each group, including ties.
+
+## Key Pattern
+```sql
+DENSE_RANK() OVER (
+    PARTITION BY departmentId
+    ORDER BY salary DESC
+)
+```
+
+**Important:** Use `DENSE_RANK()`, not `ROW_NUMBER()`. Equal salaries must receive the same rank, and all employees tied within the top three distinct salaries must be returned.
+==================================================================================================================================================================================================================================================
+22-10-2026
+
+
+
 
 
 
