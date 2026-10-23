@@ -1259,6 +1259,30 @@ Use `UPPER()` for the first character and `LOWER()` for the remaining characters
 ========================================================================================================================================================================================================================================================
 23-10-2026
 
+# 1527. Patients With a Condition
+
+**Concept:** Pattern Matching using `LIKE` and `REGEXP`
+
+### SQL Query
+```sql
+SELECT patient_id, patient_name, conditions
+FROM Patients
+WHERE conditions LIKE 'DIAB1%'
+   OR conditions LIKE '% DIAB1%';
+```
+
+### Logic
+- `LIKE 'DIAB1%'` finds conditions starting with `DIAB1`.
+- `LIKE '% DIAB1%'` finds `DIAB1` after a space, meaning it starts another condition code.
+- `OR` includes patients matching either condition.
+
+### Pattern to Remember
+Condition codes are separated by spaces, so check both the beginning of the string and occurrences after a space.
+
+**Key Pattern:** `LIKE` + wildcard `%`.
+
+**Important:** Do not use `LIKE '%DIAB1%'` alone because it could match `DIAB1` in the middle of a code rather than at the beginning of a condition code.
+
 =======================================================================================================================================================================================================================================================================
 23-10-2026
 
