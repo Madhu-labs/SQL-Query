@@ -1286,6 +1286,33 @@ Condition codes are separated by spaces, so check both the beginning of the stri
 =======================================================================================================================================================================================================================================================================
 23-10-2026
 
+# 1141. User Activity for the Past 30 Days I
+
+**Concept:** `COUNT(DISTINCT)` + `GROUP BY` + Date Filtering
+
+### SQL Query
+```sql
+SELECT activity_date AS day,
+       COUNT(DISTINCT user_id) AS active_users
+FROM Activity
+WHERE activity_date BETWEEN '2019-06-28' AND '2019-07-27'
+GROUP BY activity_date;
+```
+
+### Logic
+- `BETWEEN` selects dates from June 28 to July 27, 2019, inclusive (30 days).
+- `GROUP BY activity_date` groups activities by day.
+- `COUNT(DISTINCT user_id)` counts each user only once per day, even if they perform multiple activities.
+- `AS day` and `AS active_users` give the required column names.
+
+### Pattern to Remember
+Use `COUNT(DISTINCT user_id)` when counting unique users per day.
+
+**Key Pattern:** Date filtering + grouping + distinct counting.
+
+**Important:** Do not count all rows with `COUNT(*)`, because one user can perform multiple activities on the same day. Days with zero activity are automatically excluded.
+===========================================================================================================================================================================================
+24-10-2026
 
 
 
