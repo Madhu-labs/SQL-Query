@@ -1350,6 +1350,45 @@ Use `MIN(date)` with `GROUP BY customer_id` to identify each customer's first or
 ==============================================================================================================================================================================================================================
 24-10-2026
 
+# 550. Game Play Analysis IV
+
+**Concept:** First Login + Date Difference + Percentage Calculation
+
+### SQL Query
+```sql
+SELECT ROUND(
+    COUNT(DISTINCT a.player_id) /
+    (SELECT COUNT(DISTINCT player_id) FROM Activity),
+    2
+) AS fraction
+FROM Activity a
+JOIN (
+    SELECT player_id, MIN(event_date) AS first_login
+    FROM Activity
+    GROUP BY player_id
+) f
+ON a.player_id = f.player_id
+AND a.event_date = DATE_ADD(f.first_login, INTERVAL 1 DAY);
+```
+
+### Logic
+- The subquery finds each player's first login date using `MIN(event_date)`.
+- `DATE_ADD(first_login, INTERVAL 1 DAY)` calculates the next calendar day.
+- The `JOIN` keeps players who logged in on that next day.
+- `COUNT(DISTINCT a.player_id)` counts those players.
+- Divide by the total number of distinct players.
+- `ROUND(..., 2)` rounds the fraction to two decimal places.
+
+### Pattern to Remember
+Use `MIN(date)` to find the first event, then `DATE_ADD()` to check the following day.
+
+**Key Pattern:** First occurrence per group + date comparison + fraction.
+
+**Important:** Return a fraction, not a percentage. For example, `1 / 3 = 0.33`, not `33.33`.
+=============================================================================================================================================================================================================================================
+25-10-2026
+
+
 
 
 
