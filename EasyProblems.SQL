@@ -1313,6 +1313,42 @@ Use `COUNT(DISTINCT user_id)` when counting unique users per day.
 **Important:** Do not count all rows with `COUNT(*)`, because one user can perform multiple activities on the same day. Days with zero activity are automatically excluded.
 ===========================================================================================================================================================================================
 24-10-2026
+# 1174. Immediate Food Delivery II
+
+**Concept:** First Order + Conditional Aggregation + Percentage Calculation
+
+### SQL Query
+```sql
+SELECT
+    ROUND(
+        AVG(order_date = customer_pref_delivery_date) * 100,
+        2
+    ) AS immediate_percentage
+FROM Delivery
+WHERE (customer_id, order_date) IN (
+    SELECT customer_id, MIN(order_date)
+    FROM Delivery
+    GROUP BY customer_id
+);
+```
+
+### Logic
+- The subquery finds each customer's earliest `order_date`.
+- The `WHERE` clause keeps only each customer's first order.
+- `order_date = customer_pref_delivery_date` evaluates to `1` for immediate orders and `0` for scheduled orders in MySQL.
+- `AVG()` calculates the fraction of immediate first orders.
+- Multiply by `100` to get the percentage.
+- `ROUND(..., 2)` rounds the result to two decimal places.
+
+### Pattern to Remember
+Use `MIN(date)` with `GROUP BY customer_id` to identify each customer's first order.
+
+**Key Pattern:** First record per group + conditional average.
+
+**Important:** Calculate the percentage using only first orders, not all orders. This solution uses MySQL syntax.
+
+==============================================================================================================================================================================================================================
+24-10-2026
 
 
 
