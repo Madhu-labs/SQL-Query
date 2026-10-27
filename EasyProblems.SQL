@@ -1414,6 +1414,37 @@ Use `DENSE_RANK()` when equal values must share a rank and the next rank must ha
 **Important:** Use `DENSE_RANK()`, not `RANK()`. `RANK()` leaves gaps after ties, while `DENSE_RANK()` does not.
 
 =============================================================================================================================================================================================
+27-10-2026
+
+# 180. Consecutive Numbers
+
+**Concept:** Self-Join + Consecutive Rows
+
+### SQL Query
+```sql
+SELECT DISTINCT l1.num AS ConsecutiveNums
+FROM Logs l1
+JOIN Logs l2 ON l1.id = l2.id - 1
+JOIN Logs l3 ON l2.id = l3.id - 1
+WHERE l1.num = l2.num
+  AND l2.num = l3.num;
+```
+
+### Logic
+- `l1`, `l2`, and `l3` represent three rows of the same table.
+- The joins ensure the rows have consecutive IDs.
+- `l1.num = l2.num AND l2.num = l3.num` checks that all three numbers are equal.
+- `DISTINCT` prevents duplicate numbers in the output.
+
+### Pattern to Remember
+Use multiple self-joins when checking whether values repeat across consecutive rows.
+
+**Key Pattern:** Self-join + consecutive IDs + equality checks.
+
+**Important:** Three consecutive rows must have the same number. The number may appear more than three times; `DISTINCT` ensures it is returned only once.
+
+==========================================================================================================================================================================================================
+28-10-2026
 
 
 
