@@ -1386,8 +1386,34 @@ Use `MIN(date)` to find the first event, then `DATE_ADD()` to check the followin
 
 **Important:** Return a fraction, not a percentage. For example, `1 / 3 = 0.33`, not `33.33`.
 =============================================================================================================================================================================================================================================
-25-10-2026
+27-10-2026
 
+# 178. Rank Scores
+
+**Concept:** Window Function — `DENSE_RANK()`
+
+### SQL Query
+```sql
+SELECT score,
+       DENSE_RANK() OVER (ORDER BY score DESC) AS `rank`
+FROM Scores
+ORDER BY score DESC;
+```
+
+### Logic
+- `ORDER BY score DESC` ranks scores from highest to lowest.
+- `DENSE_RANK()` assigns the same rank to equal scores.
+- After a tie, the next rank is consecutive, with no gaps.
+- The final `ORDER BY score DESC` displays scores in descending order.
+
+### Pattern to Remember
+Use `DENSE_RANK()` when equal values must share a rank and the next rank must have no gaps.
+
+**Key Pattern:** Ranking + window function.
+
+**Important:** Use `DENSE_RANK()`, not `RANK()`. `RANK()` leaves gaps after ties, while `DENSE_RANK()` does not.
+
+=============================================================================================================================================================================================
 
 
 
