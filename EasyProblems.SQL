@@ -1486,6 +1486,82 @@ Use `LEFT JOIN` with `IS NULL` to find records missing from another table.
 ============================================================================================================================================================================================================================
 28-10-2026
 
+# 601. Human Traffic of Stadium
+
+**Concept:** Self-Joins + Consecutive IDs
+
+### SQL Query
+```sql
+SELECT DISTINCT s1.*
+FROM Stadium s1
+JOIN Stadium s2
+    ON s2.id = s1.id + 1
+JOIN Stadium s3
+    ON s3.id = s1.id + 2
+WHERE s1.people >= 100
+  AND s2.people >= 100
+  AND s3.people >= 100
+  AND (
+      s1.id IN (
+          SELECT id FROM Stadium WHERE people >= 100
+      )
+  )
+ORDER BY s1.visit_date;
+```
+
+### Correct, complete solution
+```sql
+SELECT DISTINCT s.*
+FROM Stadium s
+WHERE s.people >= 100
+  AND (
+      s.id IN (
+          SELECT s1.id
+          FROM Stadium s1
+          JOIN Stadium s2 ON s2.id = s1.id + 1
+          JOIN Stadium s3 ON s3.id = s1.id + 2
+          WHERE s1.people >= 100
+            AND s2.people >= 100
+            AND s3.people >= 100
+      )
+      OR s.id - 1 IN (
+          SELECT s1.id
+          FROM Stadium s1
+          JOIN Stadium s2 ON s2.id = s1.id + 1
+          JOIN Stadium s3 ON s3.id = s1.id + 2
+          WHERE s1.people >= 100
+            AND s2.people >= 100
+            AND s3.people >= 100
+      )
+      OR s.id - 2 IN (
+          SELECT s1.id
+          FROM Stadium s1
+          JOIN Stadium s2 ON s2.id = s1.id + 1
+          JOIN Stadium s3 ON s3.id = s1.id + 2
+          WHERE s1.people >= 100
+            AND s2.people >= 100
+            AND s3.people >= 100
+      )
+  )
+ORDER BY s.visit_date;
+```
+
+### Logic
+- A valid group requires at least **three consecutive IDs**.
+- Each row in that group must have `people >= 100`.
+- The query identifies every group of three qualifying consecutive IDs.
+- It returns all qualifying rows belonging to those groups, including overlapping groups.
+- `DISTINCT` removes duplicates, and `ORDER BY` sorts by visit date.
+
+### Pattern to Remember
+Use self-joins to find three consecutive IDs, then include every qualifying row that belongs to a group of at least three.
+
+**Key Pattern:** Consecutive rows + threshold condition + overlapping groups.
+
+**Important:** Consecutive means consecutive `id` values, not consecutive calendar dates.
+===========================================================================================================================================================================================================================================
+
+29-10-2026
 
 
 
