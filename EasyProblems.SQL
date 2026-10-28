@@ -1447,6 +1447,44 @@ Use multiple self-joins when checking whether values repeat across consecutive r
 28-10-2026
 
 
+# 1965. Employees With Missing Information
+
+**Concept:** `FULL OUTER JOIN` logic using `UNION` and `LEFT JOIN`
+
+### SQL Query
+```sql
+SELECT e.employee_id
+FROM Employees e
+LEFT JOIN Salaries s
+    ON e.employee_id = s.employee_id
+WHERE s.salary IS NULL
+
+UNION
+
+SELECT s.employee_id
+FROM Salaries s
+LEFT JOIN Employees e
+    ON s.employee_id = e.employee_id
+WHERE e.name IS NULL
+
+ORDER BY employee_id;
+```
+
+### Logic
+- The first query finds employees whose salary is missing.
+- The second query finds employees whose name is missing.
+- `UNION` combines the results and removes duplicates.
+- `ORDER BY employee_id` sorts IDs in ascending order.
+
+### Pattern to Remember
+Use `LEFT JOIN` with `IS NULL` to find records missing from another table.
+
+**Key Pattern:** Missing records + `LEFT JOIN` + `IS NULL` + `UNION`.
+
+**Important:** MySQL does not support `FULL OUTER JOIN` directly, so combine two `LEFT JOIN` queries using `UNION`.
+
+============================================================================================================================================================================================================================
+28-10-2026
 
 
 
