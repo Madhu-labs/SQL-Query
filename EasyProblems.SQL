@@ -1597,6 +1597,51 @@ Use a window function with `SUM() OVER (ORDER BY ...)` to calculate a running to
 ==============================================================================================================================================================================================================================================
 
 
+29-10-2026
+
+# 1321. Restaurant Growth
+
+**Concept:** Self-Join + Seven-Day Moving Window
+
+### SQL Query
+```sql
+SELECT
+    a.visited_on,
+    SUM(b.amount) AS amount,
+    ROUND(SUM(b.amount) / 7, 2) AS average_amount
+FROM (
+    SELECT visited_on, SUM(amount) AS amount
+    FROM Customer
+    GROUP BY visited_on
+) a
+JOIN (
+    SELECT visited_on, SUM(amount) AS amount
+    FROM Customer
+    GROUP BY visited_on
+) b
+    ON DATEDIFF(a.visited_on, b.visited_on) BETWEEN 0 AND 6
+GROUP BY a.visited_on
+HAVING COUNT(*) = 7
+ORDER BY a.visited_on;
+```
+
+### Logic
+- First, group customer payments by date to get each day's total.
+- Join the daily totals so each date matches itself and the previous six days.
+- `SUM(b.amount)` calculates the total amount over the seven-day window.
+- Divide by `7` and use `ROUND(..., 2)` to calculate the average.
+- `HAVING COUNT(*) = 7` ensures the window contains seven days.
+- `ORDER BY` returns dates in ascending order.
+
+### Pattern to Remember
+Aggregate by date first, then use a self-join with `DATEDIFF()` to calculate a moving window.
+
+**Key Pattern:** Daily aggregation + date-range join + moving average.
+
+**Important:** The output starts only after seven days of data are available. The average is the seven-day total divided by `7`, not the number of customer records.
+
+===============================================================================================================================================================================================================================================================
+30-10-2026
 
 
 
