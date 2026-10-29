@@ -1564,6 +1564,38 @@ Use self-joins to find three consecutive IDs, then include every qualifying row 
 29-10-2026
 
 
+# 1204. Last Person to Fit in the Bus
+
+**Concept:** Window Function + Cumulative Sum
+
+### SQL Query
+```sql
+SELECT person_name
+FROM (
+    SELECT person_name,
+           SUM(weight) OVER (ORDER BY turn) AS total_weight
+    FROM Queue
+) q
+WHERE total_weight <= 1000
+ORDER BY total_weight DESC
+LIMIT 1;
+```
+
+### Logic
+- `SUM(weight) OVER (ORDER BY turn)` calculates the cumulative weight as people board in turn order.
+- The inner query calculates the total weight after each person boards.
+- `WHERE total_weight <= 1000` keeps people who fit within the bus limit.
+- `ORDER BY total_weight DESC LIMIT 1` returns the last person who can board.
+
+### Pattern to Remember
+Use a window function with `SUM() OVER (ORDER BY ...)` to calculate a running total.
+
+**Key Pattern:** Cumulative sum + filtering + last valid row.
+
+**Important:** Use `turn` to determine boarding order, not `person_id`. The bus limit is 1,000 kg.
+
+==============================================================================================================================================================================================================================================
+
 
 
 
